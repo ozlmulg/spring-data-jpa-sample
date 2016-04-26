@@ -8,6 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import springdatajpa.sample.entity.Address;
 import springdatajpa.sample.entity.Customer;
 import springdatajpa.sample.repository.AddressRepository;
@@ -128,6 +131,10 @@ public class Application {
 
          boolean exists = addressRepository.exists(5l);
          log.info("Is there any address by id = 5 ? {}", exists);
+
+         PageRequest pageRequest = new PageRequest(0, 2, Sort.Direction.DESC, "id");
+         Page<Address> addressPage = addressRepository.findAll(pageRequest);
+         List<Address> addressPageContent = addressPage.getContent();
       };
    }
 }
